@@ -35220,6 +35220,9 @@ with pkgs;
   mfcj470dw-cupswrapper = callPackage ../misc/cups/drivers/mfcj470dwcupswrapper { };
   mfcj470dwlpr = pkgsi686Linux.callPackage ../misc/cups/drivers/mfcj470dwlpr { };
 
+  mfcj5335dw-cupswrapper = callPackage ../misc/cups/drivers/mfcj5335dwcupswrapper { };
+  mfcj5335dwlpr = pkgsi686Linux.callPackage ../misc/cups/drivers/mfcj5335dwlpr { };
+
   mfcj6510dw-cupswrapper = callPackage ../misc/cups/drivers/mfcj6510dwcupswrapper { };
   mfcj6510dwlpr = pkgsi686Linux.callPackage ../misc/cups/drivers/mfcj6510dwlpr { };
 
