@@ -29,7 +29,7 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [ makeWrapper ];
-  buildInputs = [ cups ghostscript dpkg a2ps ];
+  buildInputs = [ cups ghostscript dpkg a2ps stdenv.cc.cc.lib ];
 
   dontUnpack = true;
 
@@ -53,7 +53,7 @@ stdenv.mkDerivation rec {
     patchelf --set-interpreter ${pkgsi686Linux.stdenv.cc.libc.out}/lib/ld-linux.so.2 \
       --set-rpath $out/opt/brother/Printers/mfcj5335dw/inf:$out/opt/brother/Printers/mfcj5335dw/lpd \
       $out/opt/brother/Printers/mfcj5335dw/lpd/brmfcj5335dwfilter
-    patchelf --set-interpreter ${pkgsi686Linux.stdenv.cc.libc.out}/lib/ld-linux.so.2 $out/usr/bin/brprintconf_mfcj5335dw
+    patchelf --add-needed ${stdenv.cc.cc.lib}/lib/libstdc++.so.6 --set-interpreter ${pkgsi686Linux.stdenv.cc.libc.out}/lib/ld-linux.so.2 $out/usr/bin/brprintconf_mfcj5335dw
 
     #stripping the hardcoded path.
     ${util-linux}/bin/hexdump -ve '1/1 "%.2X"' $out/usr/bin/brprintconf_mfcj5335dw | \
@@ -68,7 +68,7 @@ stdenv.mkDerivation rec {
     substituteInPlace $out/bin/brprintconf_mfcj5335dw --replace @out@ $out
 
     mkdir -p $out/lib/cups/filter/
-    ln -s $out/opt/brother/Printers/mfcj5335dw/lpd/filtermfcj5335dw $out/lib/cups/filter/brother_lpdwrapper_mfcj5335dw
+    ln -s $out/opt/brother/Printers/mfcj5335dw/lpd/filter_mfcj5335dw $out/lib/cups/filter/brother_lpdwrapper_mfcj5335dw
 
     wrapProgram $out/opt/brother/Printers/mfcj5335dw/lpd/filter_mfcj5335dw \
       --prefix PATH ":" ${ lib.makeBinPath [ coreutils gnused file ghostscript a2ps ] }
@@ -76,7 +76,7 @@ stdenv.mkDerivation rec {
 
   meta = with lib; {
     description  = "Brother MFC-J5335DW LPR driver";
-    downloadPage = "http://support.brother.com/g/b/downloadlist.aspx?c=us&lang=en&prod=mfcj5335dw_all&os=128";
+    downloadPage = "http://support.brother.com/g/b/downloadlist.aspx?c=gb&lang=en&prod=mfcj5335dw_eu&os=128";
     homepage     = "http://www.brother.com/";
     sourceProvenance = with sourceTypes; [ binaryNativeCode ];
     license      = with licenses; unfree;
